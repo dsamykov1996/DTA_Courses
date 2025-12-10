@@ -96,3 +96,14 @@ COMMIT;
 
 -- View that shows quantity of orders and customers spents
 
+CREATE VIEW customer_stats AS
+SELECT
+  c.id AS customer_id,
+  c.name AS customer_id,
+  COUNT(DISTINCT o.id) AS total_orders,
+FROM customers C
+LEFT JOIN orders o ON o.customer_id = c.id
+LEFT JOIN order_item oi ON oi.order_id = o.id
+LEFT JOIN products pr ON pr.id = oi.product_id
+GROUP BY c.id, c.name
+ORDER BY total_spent DESC;

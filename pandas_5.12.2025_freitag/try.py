@@ -4,7 +4,7 @@ data = {
     'product_id': [0, 1],
     'store1': [95,70],
     'store2': [100, ""],
-    'store3': [105, 80]
+    'store3': [105, 80] 
 }
 
 df = pd.DataFrame(data)
