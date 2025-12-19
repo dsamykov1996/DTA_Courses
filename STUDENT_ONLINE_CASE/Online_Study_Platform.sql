@@ -1,11 +1,14 @@
-CREATE TABLE students1 (
+DROP TABLE students CASCADE;
+DROP TABLE instructors CASCADE;
+
+CREATE TABLE students (
     student_id SERIAL PRIMARY KEY,
     full_name TEXT NOT NULL,
     city TEXT,
     reg_date DATE
 );
 
-INSERT INTO students1 (full_name, city, reg_date) VALUES
+INSERT INTO students (full_name, city, reg_date) VALUES
 ('Anna Kovalenko', 'Kyiv', '2024-01-12'),
 ('Dmytro Shevchenko', 'Lviv', '2024-02-05'),
 ('Olena Bondar', 'Kharkiv', '2024-03-18'),
@@ -16,6 +19,7 @@ INSERT INTO students1 (full_name, city, reg_date) VALUES
 ('Yurii Kravets', 'Kharkiv', '2024-03-22'),
 ('Sofiia Levchenko', 'Odesa', '2024-04-10'),
 ('Vladyslav Chernenko', 'Kyiv', '2024-01-30');
+
 
 CREATE TABLE instructors (
     instructor_id SERIAL PRIMARY KEY,
@@ -34,7 +38,8 @@ CREATE TABLE courses(
     course_id SERIAL PRIMARY KEY,
     course_name TEXT NOT NULL,
     category TEXT NOT NULL,
-    INTEGER FOREIGN KEY (instructor_id)
+    FOREIGN KEY (instructor_id)
+        REFERENCES instructors(instructor_id)
 );
 
 INSERT INTO courses (course_name, category, instructor_id) VALUES
@@ -49,8 +54,10 @@ INSERT INTO courses (course_name, category, instructor_id) VALUES
 
 CREATE TABLE enrollments (
     enrollment_id SERIAL PRIMARY KEY,
-    student_id INTEGER FOREIGN KEY,
-    course_id INTEGER FOREIGN KEY,
+    FOREIGN KEY (student_id)
+        REFERENCES students(student_id),
+    FOREIGN KEY (course_id)
+        REFERENCES courses(course_id),
     enroll_date DATE
 );
 
@@ -73,7 +80,8 @@ INSERT INTO enrollments (student_id, course_id, enroll_date) VALUES
 
 CREATE TABLE progress (
     progress_id SERIAL PRIMARY KEY,
-    enrollment_id INTEGER FOREIGN KEY,
+    FOREIGN KEY (enrollment_id)
+        REFERENCES enrollments(enrollment_id),
     lesson_number INTEGER,
     score NUMERIC,
     completed BOOLEAN
